@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 
 const errorsHandler = require('./middlewares/errorsHandler');
 const router = require('./routes/routes');
@@ -14,6 +15,8 @@ const app = express(); // создаем приложение
 mongoose.connect('mongodb://localhost:27017/moviesexplorerdb'); // подключаемся к серверу mongo
 
 app.use(express.json());
+
+app.use(helmet()); // Настройка заголовков HTTP
 
 app.use(requestLogger); // подключаем логгер запросов
 
