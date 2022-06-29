@@ -55,7 +55,7 @@ const createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new BadRequest('При обновлении данных пользователя переданы невалидные данные'));
+        return next(new BadRequest('Переданы невалидные данные'));
       }
       if (err.code === 11000) {
         return next(new ConflictError('Пользователь с таким email уже существует'));
