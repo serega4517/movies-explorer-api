@@ -58,11 +58,11 @@ const deleteMovie = (req, res, next) => {
       throw new NotFound('Карточка не найдена');
     })
     .then((movie) => {
-      if (movie.owner.equals(req.user._id)) {
-        Movie.findByIdAndRemove(movieId)
-          .then(() => res.send(movie));
+      if (String(movie.owner) !== (req.user._id)) {
+        return next(new ForbiddenError('Невозможно удалить чужую карточку'));
       }
-      return next(new ForbiddenError('Невозможно удалить чужую карточку'));
+      return Movie.findByIdAndRemove(movieId)
+        .then(() => res.send(movie));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
