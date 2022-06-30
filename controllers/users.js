@@ -8,7 +8,7 @@ const User = require('../models/user');
 const NotFound = require('../errors/NotFound');
 const BadRequest = require('../errors/BadRequest');
 const ConflictError = require('../errors/ConflictError');
-const AuthorizationError = require('../errors/AuthorizationError');
+const Unauthorized = require('../errors/Unauthorized');
 
 const { DEV_JWT } = require('../utils/config');
 
@@ -75,7 +75,7 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : DEV_JWT, { expiresIn: '7d' });
       res.send({ token });
     })
-    .catch(() => next(new AuthorizationError('Неправильные почта или пароль')));
+    .catch(() => next(new Unauthorized('Неправильные почта или пароль')));
 };
 
 module.exports = {
