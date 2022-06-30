@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
+const { DEV_MONGO_URL } = require('./utils/config');
 const errorsHandler = require('./middlewares/errorsHandler');
 const router = require('./routes/routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -12,7 +13,7 @@ const { PORT = 3000 } = process.env; // слушаем 3000 порт
 
 const app = express(); // создаем приложение
 
-mongoose.connect('mongodb://localhost:27017/moviesexplorerdb'); // подключаемся к серверу mongo
+mongoose.connect(DEV_MONGO_URL); // подключаемся к серверу mongo
 
 app.use(express.json());
 

@@ -10,6 +10,8 @@ const BadRequest = require('../errors/BadRequest');
 const ConflictError = require('../errors/ConflictError');
 const AuthorizationError = require('../errors/AuthorizationError');
 
+const { DEV_JWT } = require('../utils/config');
+
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -70,7 +72,7 @@ const login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       // почта и пароль совпали, создаем JWT сроком на неделю
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : DEV_JWT, { expiresIn: '7d' });
       res.send({ token });
     })
     .catch(() => next(new AuthorizationError('Неправильные почта или пароль')));
