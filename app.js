@@ -8,6 +8,7 @@ const { DEV_MONGO_URL } = require('./utils/config');
 const errorsHandler = require('./middlewares/errorsHandler');
 const router = require('./routes/routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env; // слушаем 3000 порт
 
@@ -16,6 +17,8 @@ const app = express(); // создаем приложение
 mongoose.connect(DEV_MONGO_URL); // подключаемся к серверу mongo
 
 app.use(express.json());
+
+app.use(cors); // подключаем поддержку CORS
 
 app.use(helmet()); // Настройка заголовков HTTP
 
